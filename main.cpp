@@ -33,5 +33,14 @@ int main() {
     cout << "Argument of periapsis (\u03C9): " << omega << "\u00B0" << endl;  // \u03C9 is Greek small letter omega (ω)
     cout << "True anomaly (f): " << f << "\u00B0" << endl;
 
+    double r_new[3] = {0};
+    double t1 = 0.0105076712;
+    double t2 = 0.021370777;
+    AstroCalc.F_and_G_Series(r_new,r,v,t1, t2);
+    cout << "Position at time T2 using F&G series" << endl;
+    cout << r_new[0] << " i + " << endl;
+    cout << r_new[1] << " j +" << endl;
+    cout << r_new[2] << " k" <<endl;
+
     return 0;
 }

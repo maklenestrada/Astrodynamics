@@ -87,3 +87,51 @@ void AstroCalculations::rvtoOrbitElements(double r[3],double v[3], double* a, do
 
 
 }
+
+void AstroCalculations::F_and_G_Series(double r_new[3],double ro[3],double vo[3],double t1,double t2)
+{
+    //Define MathOperations Object
+    MathOperations MathOps;
+    // Define epsilon, lambda, psi
+    double r;
+    MathOps.Norm(&r,ro);
+    double eps = -mu / (pow(r, 3));
+    double lam1;
+    MathOps.DotProduct(&lam1, ro, vo);
+    double lam = lam1/ (r * r);
+    double psi1;
+    MathOps.DotProduct(&psi1,vo,vo);
+    double psi = psi1 / (r * r);
+
+    double tau = t2 - t1;
+
+    // Tau/factorial
+    double T2 = pow(tau, 2) / tgamma(2 + 1);
+    double T3 = pow(tau, 3) / tgamma(3 + 1);
+    double T4 = pow(tau, 4) / tgamma(4 + 1);
+    double T5 = pow(tau, 5) / tgamma(5 + 1);
+    double T6 = pow(tau, 6) / tgamma(6 + 1);
+
+    // r calc
+    double r2 = eps * T2;
+    double r3 = 3 * eps * lam * T3;
+    double r4 = (-15 * eps * pow(lam, 2) + 3 * eps * psi - 2 * pow(eps, 2)) * T4;
+    double r5 = (105 * eps * pow(lam, 3) - 45 * eps * lam * psi + 30 * pow(eps, 2) * lam) * T5;
+    double r6 = (-945 * eps * pow(lam, 4) + 630 * eps * pow(lam, 2) * psi - 420 * pow(eps, 2) *
+                pow(lam, 2) + 66 * pow(eps, 2) * psi - 45 * eps * pow(psi, 2) + 30 * pow(eps, 3)) * T6;
+
+    double rseries = 1 - r2 + r3 + r4 + r5 + r6;
+
+    // v calc
+    double v3 = eps * T3;
+    double v4 = (6 * eps * lam) * T4;
+    double v5 = (-45 * eps * pow(lam, 2) + 9 * eps * psi - 8 * pow(eps, 2)) * T5;
+    double v6 = (-180 * eps * lam * psi + 150 * pow(eps, 2) * lam + 315 * eps * pow(lam, 3)) * T6;
+
+    double vseries = tau - v3 + v4 + v5 + v6;
+
+    // New r calculation
+    for (int i = 0; i < 3; ++i) {
+        r_new[i] = rseries * ro[i] + vseries * vo[i];
+    }
+}
