@@ -23,14 +23,14 @@ int main() {
     cout << "Quaternion Scalar Part: " << eta << endl;
 
     AttitudeRepresentation attitude;
-    R[3][3] = {0};
+    double nR[3][3] = {0};
     string seq = "ZYZ";  // Rotation sequence
     double phi = .56;
     double theta = .78;
     double psi = .123;
 
     // Compute the rotation matrix
-    attitude.EulerAngleRotationMatrix(&R, seq, phi, theta, psi);
+    attitude.EulerAngle_3S_RotationMatrix(&nR, seq, phi, theta, psi);
 
     // Print the resulting matrix R
     cout << "Matrix R:" << endl;
@@ -41,7 +41,15 @@ int main() {
         cout << endl;
     }
 
-
+    double R1[3][3] = {0};
+    string sseq = "Z";
+    attitude.EulerAngle_1S_RotationMatrix(&R1,sseq,theta);
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            cout << R1[i][j] << " ";
+        }
+        cout << endl;
+    }
 //    double Axis[3] = {0};
 //    double Angle = 0;
 //    AttRep.AxisAngleParameters(R,&Axis,&Angle);

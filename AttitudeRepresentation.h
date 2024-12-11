@@ -20,9 +20,11 @@ public:
     //Function to extract axis and angle from rotation matrix
     void AxisAngleParameters(double R[3][3],double (*Axis)[3], double* Angle);
 
-    //Function to construct Euler Angle Rotation Matrix
-    void EulerAngleRotationMatrix(double (*R)[3][3], const string& seq, double phi, double theta,double psi);
+    //Function to construct a 3 sequence Euler Angle Rotation Matrix
+    void EulerAngle_3S_RotationMatrix(double (*R)[3][3], const string& seq, double phi, double theta,double psi);
 
+    //Function to construct a 1 sequence  Euler Angle Rotation Matrix
+    void EulerAngle_1S_RotationMatrix(double (*R)[3][3],const string& seq, double theta);
 };
 
 

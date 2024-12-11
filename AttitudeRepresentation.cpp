@@ -108,7 +108,7 @@ void AttitudeRepresentation::AxisAngleParameters(double R[3][3], double (*Axis)[
 }
 
 //Function to construct Euler Angle Rotation Matrix
-void AttitudeRepresentation::EulerAngleRotationMatrix(double (*R)[3][3], const string& seq, double phi, double theta, double psi)
+void AttitudeRepresentation::EulerAngle_3S_RotationMatrix(double (*R)[3][3], const string& seq, double phi, double theta, double psi)
 {
     double c1,s1,c2,s2,c3,s3;
     c1 = cos(phi);
@@ -176,3 +176,53 @@ void AttitudeRepresentation::EulerAngleRotationMatrix(double (*R)[3][3], const s
         }
     }
 }
+
+//Function to construct a 1 sequence  Euler Angle Rotation Matrix
+void AttitudeRepresentation::EulerAngle_1S_RotationMatrix(double (*R)[3][3],const string& seq, double theta)
+{
+    double c1,s1;
+    c1 = cos(theta);
+    s1 = sin(theta);
+
+
+    double RX[3][3] = {
+            {1,0,0},
+            {0,c1,s1},
+            {0,-s1,c1}
+    };
+
+    double RY[3][3] = {
+            {c1,0,-s1},
+            {0,1,0},
+            {s1,0,c1}
+    };
+
+    double RZ[3][3] = {
+            {c1,s1,0},
+            {-s1,c1,0},
+            {0,0,1}
+    };
+
+    if (seq == "X") {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                (*R)[i][j] = RX[i][j];
+            }
+        }
+    }else if (seq == "Y") {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                (*R)[i][j] = RY[i][j];
+            }
+        }
+    } else if (seq == "Z") {
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                (*R)[i][j] = RZ[i][j];
+            }
+        }
+    } else {
+        throw invalid_argument("Unsupported sequence, X for x-axis, Y for y-axis, Z for z-axis");
+    }
+}
+
