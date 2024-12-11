@@ -31,6 +31,9 @@ public:
 
     //Function to check if value is near a desired tolerance
     int ValueNear(double val, double goal, double tol);
+
+    // Function to multiply three 3x3 matrices: result = A * B * C
+    void multiplyThreeMatrices(const double A[3][3], const double B[3][3], const double C[3][3], double (*ans)[3][3]);
 };
 
 

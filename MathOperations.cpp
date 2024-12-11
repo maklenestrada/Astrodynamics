@@ -2,6 +2,7 @@
 #include "MathOperations.h"
 #include <vector>
 #include <cmath>
+#include <stdio.h>
 
 //Computes cross product
 void MathOperations::CrossProduct(double ans[3],double X[3],double Y[3])
@@ -59,4 +60,29 @@ int MathOperations::ValueNear(double val, double goal, double tol)
         return 1;
     else
         return 0;
+}
+
+// Function to multiply three 3x3 matrices: result = A * B * C
+void MathOperations::multiplyThreeMatrices(const double A[3][3], const double B[3][3], const double C[3][3], double (*ans)[3][3]) {
+    double temp[3][3] = {0};
+
+    // Compute A * B and store in temp
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            temp[i][j] = 0;
+            for (int k = 0; k < 3; ++k) {
+                temp[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    // Compute temp * C and store in result
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            (*ans)[i][j] = 0;
+            for (int k = 0; k < 3; ++k) {
+                (*ans)[i][j] += temp[i][k] * C[k][j];
+            }
+        }
+    }
 }
